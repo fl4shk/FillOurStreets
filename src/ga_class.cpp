@@ -23,7 +23,8 @@ void Ga::print_genomes() const
 {
 	for (const auto& geno : genomes())
 	{
-		printout(geno, ":  ", fitness(geno), "\n");
+		//printout(geno, ":  ", fitness(geno), "\n");
+		printout(geno, "\t\tfitness:  ", fitness(geno), "\n");
 	}
 }
 
