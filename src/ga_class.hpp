@@ -13,16 +13,6 @@ inline bool val_meets_percentage
 	return (rem < scaled_percentage);
 }
 
-class Roulette
-{
-public:		// variables
-	
-
-public:		// functions
-	
-};
-
-
 class Ga
 {
 public:		// constants
@@ -33,7 +23,10 @@ private:		// variables
 	Prng __prng;
 
 
+	size_t __num_iterations = 0;
+
 	std::vector<std::string> __genomes, __next_genomes;
+	std::vector<size_t> __selection_vec;
 
 	size_t __pop_size; 
 	double __crossover_rate, __mutation_rate;
@@ -50,6 +43,7 @@ public:		// functions
 
 	int operator () ();
 
+	gen_getter_by_val(num_iterations);
 	gen_getter_by_con_ref(genomes);
 	gen_getter_by_con_ref(next_genomes);
 
@@ -57,6 +51,8 @@ public:		// functions
 private:		// functions
 	gen_getter_by_ref(genomes);
 	gen_getter_by_ref(next_genomes);
+	gen_getter_by_ref(selection_vec);
+	gen_getter_by_con_ref(selection_vec);
 	gen_getter_and_setter_by_val(pop_size);
 	gen_getter_and_setter_by_val(crossover_rate);
 	gen_getter_and_setter_by_val(mutation_rate);
@@ -69,11 +65,20 @@ private:		// functions
 	}
 
 
-	void crossover(const std::string& geno_a, const std::string& geno_b, 
+	void __raw_crossover(const std::string& geno_a, 
+		const std::string& geno_b, 
 		std::string& out_geno_a, std::string& out_geno_b,
 		size_t start_index, size_t past_end_index);
-	void mutate(std::string& out_geno, 
+	void crossover_or_copy();
+	void __raw_mutate(const std::string& geno, std::string& out_geno, 
 		size_t start_index, size_t past_end_index);
+	void mutate_or_copy(size_t index);
+	void select_two(size_t& out_index_a, size_t& out_index_b);
+	void __make_selection_vec();
+
+	void iterate();
+
+
 	inline void randomize_genome(std::string& out_geno)
 	{
 		if (out_geno.size() != max_fitness())
@@ -91,7 +96,7 @@ private:		// functions
 		////} while (fitness(out_geno) < 10);
 
 		////printout(out_geno, ":  ", fitness(out_geno), "\n");
-		mutate(out_geno, 0, max_fitness());
+		__raw_mutate(out_geno, out_geno, 0, max_fitness());
 	}
 
 	char get_random_printable_char();
