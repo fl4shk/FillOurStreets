@@ -27,6 +27,7 @@ private:		// variables
 
 	std::vector<std::string> __genomes, __next_genomes;
 	std::vector<size_t> __selection_vec;
+	std::set<char> __valid_chars_set;
 
 	size_t __pop_size; 
 	double __crossover_rate, __mutation_rate;
@@ -48,6 +49,7 @@ public:		// functions
 	gen_getter_by_val(num_iterations);
 	gen_getter_by_con_ref(genomes);
 	gen_getter_by_con_ref(next_genomes);
+	gen_getter_by_con_ref(valid_chars_set);
 
 
 private:		// functions
@@ -111,7 +113,8 @@ private:		// functions
 		__raw_mutate(out_geno, out_geno, 0, out_geno.size());
 	}
 
-	char get_random_printable_char();
+	//char get_random_printable_char();
+	char get_random_valid_char();
 
 	inline auto prng()
 	{

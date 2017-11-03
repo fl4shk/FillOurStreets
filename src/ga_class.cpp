@@ -5,6 +5,11 @@ Ga::Ga(const std::string& s_to_find, size_t s_pop_size,
 	: __to_find(s_to_find), __pop_size(s_pop_size),
 	__crossover_rate(s_crossover_rate), __mutation_rate(s_mutation_rate)
 {
+	for (char c : to_find())
+	{
+		__valid_chars_set.insert(c);
+	}
+
 	__genomes.resize(pop_size());
 
 	__num_iterations = 0;
@@ -86,33 +91,34 @@ size_t Ga::fitness(const std::string& geno) const
 	{
 		if (geno.at(i) == to_find().at(i))
 		{
-			++ret;
+			//++ret;
+			ret += 2;
 		}
 	}
 
-	size_t consec = 0;
+	//size_t consec = 0;
 
-	for (size_t i=0; i<geno.size(); ++i)
-	{
-		if (geno.at(i) == to_find().at(i))
-		{
-			++consec;
-		}
-		else
-		{
-			num_consecutive_substrs.push_back(consec);
-			consec = 0;
-		}
-	}
-	if (consec != 0)
-	{
-		num_consecutive_substrs.push_back(consec);
-	}
+	//for (size_t i=0; i<geno.size(); ++i)
+	//{
+	//	if (geno.at(i) == to_find().at(i))
+	//	{
+	//		++consec;
+	//	}
+	//	else
+	//	{
+	//		num_consecutive_substrs.push_back(consec);
+	//		consec = 0;
+	//	}
+	//}
+	//if (consec != 0)
+	//{
+	//	num_consecutive_substrs.push_back(consec);
+	//}
 
-	for (const auto& iter : num_consecutive_substrs)
-	{
-		ret += iter;
-	}
+	//for (const auto& iter : num_consecutive_substrs)
+	//{
+	//	ret += iter;
+	//}
 
 	return ret;
 }
@@ -238,7 +244,8 @@ void Ga::__raw_mutate(const std::string& geno, std::string& out_geno,
 
 	for (size_t i=start_index; i<past_end_index; ++i)
 	{
-		out_geno.at(i) = get_random_printable_char();
+		//out_geno.at(i) = get_random_printable_char();
+		out_geno.at(i) = get_random_valid_char();
 	}
 }
 
@@ -346,7 +353,8 @@ void Ga::iterate()
 
 
 
-char Ga::get_random_printable_char()
+//char Ga::get_random_printable_char()
+char Ga::get_random_valid_char()
 {
 	char ret;
 
@@ -354,7 +362,8 @@ char Ga::get_random_printable_char()
 	{
 		const auto rand_val = prng();
 		ret = static_cast<char>(rand_val % (sizeof(char) << 8));
-	} while (!isprint(ret));
+	} while (valid_chars_set().count(ret) == 0);
+	//while (!isprint(ret));
 	//while (!(ret >= 'a' && ret <= 'z'));
 	//while (!isalpha(ret));
 	//while (!(ret >= 'A' && ret <= 'Z'));
