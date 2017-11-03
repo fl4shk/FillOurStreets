@@ -11,7 +11,18 @@ Ga::Ga(const std::string& s_to_find, size_t s_pop_size,
 	{
 		geno.resize(max_fitness());
 		randomize_genome(geno);
+		//geno.at(4) = ' ';
+		//geno.at(9) = ' ';
+		//geno.at(14) = ' ';
 	}
+	//printout("\n");
+
+	//print_genomes();
+	//printout("\n");
+
+	//crossover(genomes().at(0), genomes().at(1), 
+	//	genomes().at(0), genomes().at(1),
+	//	5, 7);
 	//printout("\n");
 }
 
@@ -58,6 +69,26 @@ void Ga::crossover(const std::string& geno_a, const std::string& geno_b,
 	std::string& out_geno_a, std::string& out_geno_b,
 	size_t start_index, size_t past_end_index)
 {
+	std::string temp_geno_a = geno_a;
+	std::string temp_geno_b = geno_b;
+
+	for (size_t i=start_index; i<past_end_index; ++i)
+	{
+		// For safety
+		if (i >= max_fitness())
+		{
+			printerr("Ga::crossover():  Eek! ", 
+				strappcom2(start_index, past_end_index, max_fitness()),
+				"\n");
+			exit(1);
+		}
+
+		temp_geno_a.at(i) = geno_b.at(i);
+		temp_geno_b.at(i) = geno_a.at(i);
+	}
+
+	out_geno_a = std::move(temp_geno_a);
+	out_geno_b = std::move(temp_geno_b);
 }
 
 void Ga::mutate(std::string& out_geno, 
@@ -79,10 +110,22 @@ char Ga::get_random_printable_char()
 		const auto rand_val = prng();
 		ret = static_cast<char>(rand_val % (sizeof(char) << 8));
 	} while (!isprint(ret));
+	//while (!(ret >= 'a' && ret <= 'z'));
+	//while (!isalpha(ret));
+	//while (!(ret >= 'A' && ret <= 'Z'));
 
 	return ret;
 }
 
+bool Ga::__can_crossmut(double percentage)
+{
+	const double rand_val = static_cast<double>(prng());
+
+	const double rem = fmod(rand_val, crossmut_scale_amount);
+	const double scaled_percentage = percentage * crossmut_scale_amount;
+
+	return (rem < scaled_percentage);
+}
 
 size_t Ga::tournament(size_t start_index, size_t past_end_index) const
 {

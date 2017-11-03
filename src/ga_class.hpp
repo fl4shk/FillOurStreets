@@ -3,8 +3,20 @@
 
 #include "misc_includes.hpp"
 
+class Roulette
+{
+public:		// variables
+	
+
+public:		// functions
+	
+};
+
 class Ga
 {
+public:		// constants
+	static constexpr double crossmut_scale_amount = 100'000'000;
+
 private:		// variables
 	std::string __to_find;
 	Prng __prng;
@@ -18,7 +30,7 @@ private:		// variables
 
 public:		// functions
 	Ga(const std::string& s_to_find, size_t s_pop_size=20, 
-		double s_crossover_rate=0.7f, double s_mutation_rate=0.25f);
+		double s_crossover_rate=0.7f, double s_mutation_rate=0.1f);
 	~Ga();
 
 
@@ -77,6 +89,16 @@ private:		// functions
 	{
 		return __prng();
 	}
+
+	inline bool can_crossover()
+	{
+		return __can_crossmut(crossover_rate());
+	}
+	inline bool can_mutate()
+	{
+		return __can_crossmut(mutation_rate());
+	}
+	bool __can_crossmut(double percentage);
 
 
 	size_t tournament(size_t start_index, size_t past_end_index) const;

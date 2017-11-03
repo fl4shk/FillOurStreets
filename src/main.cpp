@@ -29,9 +29,12 @@ int main(int argc, char** argv)
 		exit(1);
 	}
 
-	Ga ga("Banks wants to empty the banks, "
-		"fill our streets with banks, "
-		"and run a bank making operation out of his banks.",
+	//Ga ga("Banks wants to empty the banks, "
+	//	"fill our streets with banks, "
+	//	"and run a bank making operation out of his banks.",
+	//	pop_size, crossover_rate, mutation_rate);
+
+	Ga ga("0ooo oooo aaaa bbbb",
 		pop_size, crossover_rate, mutation_rate);
 
 	ga.print_genomes();
