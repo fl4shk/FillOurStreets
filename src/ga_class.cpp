@@ -42,12 +42,27 @@ void Ga::print_genomes() const
 		printout(geno, "\t\tfitness:  ", fitness(geno), "\n");
 	}
 }
+const std::string Ga::get_solution() const
+{
+	for (const auto& geno : genomes())
+	{
+		if (fitness(geno) == max_fitness())
+		{
+			return geno;
+		}
+	}
+
+	return "";
+}
 
 int Ga::operator () ()
 {
-	for (size_t i=0; i<20; ++i)
+	//for (size_t i=0; i<20; ++i)
+	while (!has_reached_max_fitness())
 	{
 		iterate();
+		print_genomes();
+		printout("\n");
 	}
 
 	return 0;
@@ -72,6 +87,19 @@ size_t Ga::fitness(const std::string& geno) const
 	}
 
 	return ret;
+}
+
+bool Ga::has_reached_max_fitness() const
+{
+	for (const auto& geno : genomes())
+	{
+		if (fitness(geno) == max_fitness())
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void Ga::__raw_crossover(const std::string& geno_a, 
@@ -103,8 +131,74 @@ void Ga::__raw_crossover(const std::string& geno_a,
 
 void Ga::crossover_or_copy()
 {
-	size_t index_a, index_b;
-	select_two(index_a, index_b);
+	size_t index_a = -1, index_b = -1;
+
+	do
+	{
+		select_two(index_a, index_b);
+	} while (index_a == index_b);
+
+	if (!can_crossover())
+	{
+		if (!(prng() % 2))
+		{
+			next_genomes().push_back(genomes().at(index_a));
+		}
+		else
+		{
+			next_genomes().push_back(genomes().at(index_b));
+		}
+		//next_genomes().push_back(genomes().at(index_b));
+	}
+	else
+	{
+		std::string out_geno_a, out_geno_b;
+
+		//__raw_crossover(genomes().at(index_a), genomes().at(index_b),
+		//	out_geno_a, out_geno_b,
+		//	(prng() % genomes().front().size()), genomes().front().size());
+
+		{
+			const auto val_0 = (prng() % genomes().front().size()),
+				val_1 = (prng() % genomes().front().size());
+
+			if (val_0 < val_1)
+			{
+				//__raw_mutate(old_next_genome, next_genomes().at(index),
+				//	val_0, val_1 + 1);
+				__raw_crossover(genomes().at(index_a),
+					genomes().at(index_b),
+					out_geno_a, out_geno_b,
+					val_0, val_1 + 1);
+			}
+			else
+			{
+				//__raw_mutate(old_next_genome, next_genomes().at(index),
+				//	val_1, val_0 + 1);
+				__raw_crossover(genomes().at(index_a),
+					genomes().at(index_b),
+					out_geno_a, out_geno_b,
+					val_1, val_0 + 1);
+			}
+		}
+
+		if ((next_genomes().size() + 1) == genomes().size())
+		{
+			if (!(prng() % 2))
+			{
+				next_genomes().push_back(out_geno_a);
+			}
+			else
+			{
+				next_genomes().push_back(out_geno_b);
+			}
+		}
+		else
+		{
+			next_genomes().push_back(out_geno_a);
+			next_genomes().push_back(out_geno_b);
+		}
+	}
 }
 
 void Ga::__raw_mutate(const std::string& geno, std::string& out_geno, 
@@ -118,19 +212,39 @@ void Ga::__raw_mutate(const std::string& geno, std::string& out_geno,
 	}
 }
 
-void Ga::mutate_or_copy(size_t index)
+void Ga::mutate_maybe(size_t index)
 {
-	next_genomes().at(index) = genomes().at(index);
+	//next_genomes().at(index) = genomes().at(index);
 	if (!can_mutate())
 	{
 		return;
 	}
 
+	const std::string old_next_genome = next_genomes().at(index);
+
+	//__raw_mutate(old_next_genome, next_genomes().at(index),
+	//	(prng() % old_next_genome.size()), old_next_genome.size());
+
+	const auto val_0 = (prng() % old_next_genome.size()),
+		val_1 = (prng() % old_next_genome.size());
+
+	if (val_0 < val_1)
+	{
+		__raw_mutate(old_next_genome, next_genomes().at(index),
+			val_0, val_1 + 1);
+	}
+	else
+	{
+		__raw_mutate(old_next_genome, next_genomes().at(index),
+			val_1, val_0 + 1);
+	}
 }
 
 
 void Ga::select_two(size_t& out_index_a, size_t& out_index_b)
 {
+	out_index_a = selection_vec().at(prng() % selection_vec().size());
+	out_index_b = selection_vec().at(prng() % selection_vec().size());
 }
 
 void Ga::__make_selection_vec()
@@ -181,12 +295,22 @@ void Ga::__make_selection_vec()
 void Ga::iterate()
 {
 	next_genomes().clear();
-	next_genomes().resize(genomes().size());
+	//next_genomes().resize(genomes().size());
 
 	__make_selection_vec();
 
+	while (next_genomes().size() < genomes().size())
+	{
+		crossover_or_copy();
+	}
+
+	for (size_t i=0; i<next_genomes().size(); ++i)
+	{
+		mutate_maybe(i);
+	}
 
 	genomes() = std::move(next_genomes());
+
 	++__num_iterations;
 }
 

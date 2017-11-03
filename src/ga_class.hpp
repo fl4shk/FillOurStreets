@@ -41,6 +41,8 @@ public:		// functions
 	gen_getter_by_con_ref(to_find);
 	void print_genomes() const;
 
+	const std::string get_solution() const;
+
 	int operator () ();
 
 	gen_getter_by_val(num_iterations);
@@ -64,6 +66,8 @@ private:		// functions
 		return to_find().size();
 	}
 
+	bool has_reached_max_fitness() const;
+
 
 	void __raw_crossover(const std::string& geno_a, 
 		const std::string& geno_b, 
@@ -72,7 +76,7 @@ private:		// functions
 	void crossover_or_copy();
 	void __raw_mutate(const std::string& geno, std::string& out_geno, 
 		size_t start_index, size_t past_end_index);
-	void mutate_or_copy(size_t index);
+	void mutate_maybe(size_t index);
 	void select_two(size_t& out_index_a, size_t& out_index_b);
 	void __make_selection_vec();
 
