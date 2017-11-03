@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 
 	if (pop_size <= 2)
 	{
-		printerr("Population size too small\n");
+		printerr("Population size too small (must be at least 3)\n");
 		exit(1);
 	}
 
