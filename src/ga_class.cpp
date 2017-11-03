@@ -36,11 +36,12 @@ Ga::~Ga()
 
 void Ga::print_genomes() const
 {
+	const auto some_best_fitness = current_best_fitness();
 	for (const auto& geno : genomes())
 	{
 		//printout(geno, ":  ", fitness(geno), "\n");
 		printout(geno, "\t\tfitness:  ", fitness(geno), 
-			"\t\tcurrent_best_fitness():  ", current_best_fitness(), "\n");
+			"\t\tcurrent_best_fitness():  ", some_best_fitness, "\n");
 	}
 }
 const std::string Ga::get_solution() const
