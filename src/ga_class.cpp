@@ -54,26 +54,34 @@ size_t Ga::fitness(const std::string& geno) const
 	return ret;
 }
 
-
-void Ga::randomize_genome(std::string& geno)
+void Ga::mutate(std::string& geno, size_t start_index, 
+	size_t past_end_index)
 {
-	if (geno.size() != max_fitness())
+	for (size_t i=start_index; i<past_end_index; ++i)
 	{
-		printerr("ga::fitness():  eek!\n");
-		exit(1);
+		geno.at(i) = get_random_printable_char();
 	}
-
-	//do
-	//{
-		for (size_t i=0; i<max_fitness(); ++i)
-		{
-
-			geno.at(i) = get_random_printable_char();
-		}
-	//} while (fitness(geno) < 10);
-
-	//printout(geno, ":  ", fitness(geno), "\n");
 }
+
+//void Ga::randomize_genome(std::string& geno)
+//{
+//	if (geno.size() != max_fitness())
+//	{
+//		printerr("ga::fitness():  eek!\n");
+//		exit(1);
+//	}
+//
+//	////do
+//	////{
+//	//	for (size_t i=0; i<max_fitness(); ++i)
+//	//	{
+//	//		geno.at(i) = get_random_printable_char();
+//	//	}
+//	////} while (fitness(geno) < 10);
+//
+//	////printout(geno, ":  ", fitness(geno), "\n");
+//	mutate(geno, 0, max_fitness());
+//}
 
 
 char Ga::get_random_printable_char()
@@ -87,4 +95,21 @@ char Ga::get_random_printable_char()
 	} while (!isprint(ret));
 
 	return ret;
+}
+
+
+size_t Ga::tournament(size_t start_index, size_t past_end_index) const
+{
+	size_t ret_index = start_index;
+
+	for (size_t i=start_index+1; i<past_end_index; ++i)
+	{
+		if (fitness(genomes().at(ret_index))
+			< fitness(genomes().at(i)))
+		{
+			ret_index = i;
+		}
+	}
+
+	return ret_index;
 }

@@ -24,8 +24,8 @@ int main(int argc, char** argv)
 	if ((crossover_rate <= 0.0f) || (crossover_rate >= 1.0f)
 		|| (mutation_rate <= 0.0f) || (mutation_rate >= 1.0f))
 	{
-		printerr("Crossover/mutation rate must be greater than 0.0f but",
-			" less than 1.0f\n");
+		printerr("Crossover and mutation rates must be ",
+			"greater than 0.0f but less than 1.0f\n");
 		exit(1);
 	}
 

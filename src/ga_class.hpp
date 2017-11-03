@@ -38,15 +38,27 @@ private:		// functions
 	gen_getter_and_setter_by_val(crossover_rate);
 	gen_getter_and_setter_by_val(mutation_rate);
 
+
 	size_t fitness(const std::string& geno) const;
 	inline size_t max_fitness() const
 	{
 		return to_find().size();
 	}
 
-	void crossover(std::string& a, std::string& b);
-	void mutate(std::string& a, std::string& b);
-	void randomize_genome(std::string& geno);
+
+	void crossover(std::string& a, std::string& b, size_t start_index,
+		size_t past_end_index);
+	void mutate(std::string& geno, size_t start_index, 
+		size_t past_end_index);
+	inline void randomize_genome(std::string& geno)
+	{
+		if (geno.size() != max_fitness())
+		{
+			printerr("ga::fitness():  eek!\n");
+			exit(1);
+		}
+		mutate(geno, 0, max_fitness());
+	}
 
 	char get_random_printable_char();
 
@@ -55,6 +67,8 @@ private:		// functions
 		return __prng();
 	}
 
+
+	size_t tournament(size_t start_index, size_t past_end_index) const;
 };
 
 #endif		// ga_class_hpp
