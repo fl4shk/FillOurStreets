@@ -3,6 +3,16 @@
 
 #include "misc_includes.hpp"
 
+
+inline bool val_meets_percentage
+	(double val, double scale_amount, double percentage)
+{
+	const double rem = fmod(val, scale_amount);
+	const double scaled_percentage = percentage * scale_amount;
+
+	return (rem < scaled_percentage);
+}
+
 class Roulette
 {
 public:		// variables
@@ -11,6 +21,7 @@ public:		// variables
 public:		// functions
 	
 };
+
 
 class Ga
 {
@@ -98,10 +109,14 @@ private:		// functions
 	{
 		return __can_crossmut(mutation_rate());
 	}
-	bool __can_crossmut(double percentage);
+	inline bool __can_crossmut(double percentage)
+	{
+		return val_meets_percentage(static_cast<double>(prng()), 
+			crossmut_scale_amount, percentage);
+	}
 
 
-	size_t tournament(size_t start_index, size_t past_end_index) const;
+	//size_t tournament(size_t start_index, size_t past_end_index) const;
 };
 
 #endif		// ga_class_hpp

@@ -117,28 +117,19 @@ char Ga::get_random_printable_char()
 	return ret;
 }
 
-bool Ga::__can_crossmut(double percentage)
-{
-	const double rand_val = static_cast<double>(prng());
 
-	const double rem = fmod(rand_val, crossmut_scale_amount);
-	const double scaled_percentage = percentage * crossmut_scale_amount;
-
-	return (rem < scaled_percentage);
-}
-
-size_t Ga::tournament(size_t start_index, size_t past_end_index) const
-{
-	size_t ret_index = start_index;
-
-	for (size_t i=start_index+1; i<past_end_index; ++i)
-	{
-		if (fitness(genomes().at(ret_index))
-			< fitness(genomes().at(i)))
-		{
-			ret_index = i;
-		}
-	}
-
-	return ret_index;
-}
+//size_t Ga::tournament(size_t start_index, size_t past_end_index) const
+//{
+//	size_t ret_index = start_index;
+//
+//	for (size_t i=start_index+1; i<past_end_index; ++i)
+//	{
+//		if (fitness(genomes().at(ret_index))
+//			< fitness(genomes().at(i)))
+//		{
+//			ret_index = i;
+//		}
+//	}
+//
+//	return ret_index;
+//}

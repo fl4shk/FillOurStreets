@@ -1,6 +1,7 @@
 #include "ga_class.hpp"
 #include <stdlib.h>
 
+void tester(const double crossover_rate, const double mutation_rate);
 
 int main(int argc, char** argv)
 {
@@ -29,6 +30,10 @@ int main(int argc, char** argv)
 		exit(1);
 	}
 
+	//tester(crossover_rate, mutation_rate);
+
+
+
 	//Ga ga("Banks wants to empty the banks, "
 	//	"fill our streets with banks, "
 	//	"and run a bank making operation out of his banks.",
@@ -40,4 +45,36 @@ int main(int argc, char** argv)
 	ga.print_genomes();
 
 	return ga();
+}
+
+
+
+void tester(const double crossover_rate, const double mutation_rate)
+{
+	//static constexpr double scale_amount = 100'000'000;
+	static constexpr double scale_amount = 100;
+	//Prng prng;
+
+	//for (size_t i=0; i<5; ++i)
+	for (double some_val=0.0f; some_val<100.0f; some_val+=0.1f)
+	{
+		//const double some_val = static_cast<double>(prng());
+
+		printout(//some_val, ":  ", 
+			((fmod(some_val, scale_amount)) / scale_amount), 
+
+			"\t\t",
+
+
+			//strappcom2
+			//(crossover_rate,
+			//mutation_rate), 
+
+			//"\t\t",
+
+			strappcom2
+			(val_meets_percentage(some_val, scale_amount, crossover_rate),
+			val_meets_percentage(some_val, scale_amount, mutation_rate)),
+			"\n");
+	}
 }
