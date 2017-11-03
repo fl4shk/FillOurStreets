@@ -54,6 +54,8 @@ size_t Ga::fitness(const std::string& geno) const
 	return ret;
 }
 
+void crossover(std::string& geno_a, std::string& geno_b, 
+	size_t start_index, size_t past_end_index);
 void Ga::mutate(std::string& geno, size_t start_index, 
 	size_t past_end_index)
 {
@@ -62,26 +64,6 @@ void Ga::mutate(std::string& geno, size_t start_index,
 		geno.at(i) = get_random_printable_char();
 	}
 }
-
-//void Ga::randomize_genome(std::string& geno)
-//{
-//	if (geno.size() != max_fitness())
-//	{
-//		printerr("ga::fitness():  eek!\n");
-//		exit(1);
-//	}
-//
-//	////do
-//	////{
-//	//	for (size_t i=0; i<max_fitness(); ++i)
-//	//	{
-//	//		geno.at(i) = get_random_printable_char();
-//	//	}
-//	////} while (fitness(geno) < 10);
-//
-//	////printout(geno, ":  ", fitness(geno), "\n");
-//	mutate(geno, 0, max_fitness());
-//}
 
 
 char Ga::get_random_printable_char()
