@@ -39,7 +39,8 @@ void Ga::print_genomes() const
 	for (const auto& geno : genomes())
 	{
 		//printout(geno, ":  ", fitness(geno), "\n");
-		printout(geno, "\t\tfitness:  ", fitness(geno), "\n");
+		printout(geno, "\t\tfitness:  ", fitness(geno), 
+			"current_best_fitness():  ", current_best_fitness(), "\n");
 	}
 }
 const std::string Ga::get_solution() const
@@ -115,17 +116,19 @@ size_t Ga::fitness(const std::string& geno) const
 	return ret;
 }
 
-bool Ga::has_reached_max_fitness() const
+size_t Ga::current_best_fitness() const
 {
+	size_t ret = 0;
 	for (const auto& geno : genomes())
 	{
-		if (fitness(geno) == max_fitness())
+		const size_t some_fitness = fitness(geno);
+		if (ret < some_fitness)
 		{
-			return true;
+			ret = some_fitness;
 		}
 	}
 
-	return false;
+	return ret;
 }
 
 void Ga::__raw_crossover(const std::string& geno_a, 

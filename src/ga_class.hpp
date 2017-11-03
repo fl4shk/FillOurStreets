@@ -65,12 +65,16 @@ private:		// functions
 	{
 		return to_find().size() * 2;
 	}
+	size_t current_best_fitness() const;
 	inline size_t max_past_end_index() const
 	{
 		return to_find().size();
 	}
 
-	bool has_reached_max_fitness() const;
+	inline bool has_reached_max_fitness() const
+	{
+		return (current_best_fitness() == max_fitness());
+	}
 
 
 	void __raw_crossover(const std::string& geno_a, 
