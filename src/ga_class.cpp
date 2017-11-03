@@ -11,7 +11,7 @@ Ga::Ga(const std::string& s_to_find, size_t s_pop_size,
 
 	for (auto& geno : genomes())
 	{
-		geno.resize(max_fitness());
+		geno.resize(max_past_end_index());
 		randomize_genome(geno);
 		//geno.at(4) = ' ';
 		//geno.at(9) = ' ';
@@ -70,9 +70,10 @@ int Ga::operator () ()
 
 size_t Ga::fitness(const std::string& geno) const
 {
-	if (geno.size() != max_fitness())
+	if (geno.size() != max_past_end_index())
 	{
-		printerr("ga::fitness():  eek!\n");
+		printerr(strappcom2(geno.size(), max_past_end_index()), "\n");
+		printerr("Ga::fitness():  Eek!\n");
 		exit(1);
 	}
 
@@ -138,7 +139,7 @@ void Ga::__raw_crossover(const std::string& geno_a,
 	for (size_t i=start_index; i<past_end_index; ++i)
 	{
 		// For safety
-		if (i >= max_fitness())
+		if (i >= max_past_end_index())
 		{
 			printerr("Ga::crossover():  Eek! ", 
 				strappcom2(start_index, past_end_index, max_fitness()),

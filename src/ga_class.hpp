@@ -63,6 +63,10 @@ private:		// functions
 	size_t fitness(const std::string& geno) const;
 	inline size_t max_fitness() const
 	{
+		return to_find().size() * 2;
+	}
+	inline size_t max_past_end_index() const
+	{
 		return to_find().size();
 	}
 
@@ -85,9 +89,9 @@ private:		// functions
 
 	inline void randomize_genome(std::string& out_geno)
 	{
-		if (out_geno.size() != max_fitness())
+		if (out_geno.size() != max_past_end_index())
 		{
-			printerr("ga::fitness():  eek!\n");
+			printerr("Ga::randomize_genome():  Eek!\n");
 			exit(1);
 		}
 
@@ -100,7 +104,7 @@ private:		// functions
 		////} while (fitness(out_geno) < 10);
 
 		////printout(out_geno, ":  ", fitness(out_geno), "\n");
-		__raw_mutate(out_geno, out_geno, 0, max_fitness());
+		__raw_mutate(out_geno, out_geno, 0, out_geno.size());
 	}
 
 	char get_random_printable_char();
