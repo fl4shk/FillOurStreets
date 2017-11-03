@@ -76,6 +76,7 @@ size_t Ga::fitness(const std::string& geno) const
 		exit(1);
 	}
 
+	std::vector<size_t> num_consecutive_substrs;
 	size_t ret = 0;
 
 	for (size_t i=0; i<geno.size(); ++i)
@@ -84,6 +85,30 @@ size_t Ga::fitness(const std::string& geno) const
 		{
 			++ret;
 		}
+	}
+
+	size_t consec = 0;
+
+	for (size_t i=0; i<geno.size(); ++i)
+	{
+		if (geno.at(i) == to_find().at(i))
+		{
+			++consec;
+		}
+		else
+		{
+			num_consecutive_substrs.push_back(consec);
+			consec = 0;
+		}
+	}
+	if (consec != 0)
+	{
+		num_consecutive_substrs.push_back(consec);
+	}
+
+	for (const auto& iter : num_consecutive_substrs)
+	{
+		ret += iter;
 	}
 
 	return ret;
