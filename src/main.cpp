@@ -4,14 +4,16 @@
 
 int main(int argc, char** argv)
 {
-	if (argc != 3)
+	if (argc != 4)
 	{
-		printerr("Usage:  ", argv[0], " pop_size crossmut_rate\n");
+		printerr("Usage:  ", argv[0], " pop_size crossover_rate ",
+			"mutation_rate\n");
 		exit(1);
 	}
 
 	const int pop_size = atoi(argv[1]);
-	const double crossmut_rate = atof(argv[2]);
+	const double crossover_rate = atof(argv[2]);
+	const double mutation_rate = atof(argv[3]);
 
 	if (pop_size <= 2)
 	{
@@ -19,7 +21,8 @@ int main(int argc, char** argv)
 		exit(1);
 	}
 
-	if ((crossmut_rate <= 0.0f) || (crossmut_rate >= 1.0f))
+	if ((crossover_rate <= 0.0f) || (crossover_rate >= 1.0f)
+		|| (mutation_rate <= 0.0f) || (mutation_rate >= 1.0f))
 	{
 		printerr("Crossover/mutation rate must be greater than 0.0f but",
 			" less than 1.0f\n");
@@ -29,7 +32,9 @@ int main(int argc, char** argv)
 	Ga ga("Banks wants to empty the banks, "
 		"fill our streets with banks, "
 		"and run a bank making operation out of his banks.",
-		pop_size, crossmut_rate);
+		pop_size, crossover_rate, mutation_rate);
+
+	ga.print_genomes();
 
 	return ga();
 }

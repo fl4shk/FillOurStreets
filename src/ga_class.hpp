@@ -10,29 +10,35 @@ private:		// variables
 	Prng __prng;
 
 
-	std::vector<std::string> __genomes;
+	std::vector<std::string> __genomes, __next_genomes;
 
 	size_t __pop_size; 
-	double __crossmut_rate;
+	double __crossover_rate, __mutation_rate;
 
 
 public:		// functions
 	Ga(const std::string& s_to_find, size_t s_pop_size=20, 
-		double s_crossmut_rate=0.25);
+		double s_crossover_rate=0.7f, double s_mutation_rate=0.25f);
 	~Ga();
 
 
 	gen_getter_by_con_ref(to_find);
+	void print_genomes() const;
 
 	int operator () ();
+
+	gen_getter_by_con_ref(genomes);
+	gen_getter_by_con_ref(next_genomes);
 
 
 private:		// functions
 	gen_getter_by_ref(genomes);
+	gen_getter_by_ref(next_genomes);
 	gen_getter_and_setter_by_val(pop_size);
-	gen_getter_and_setter_by_val(crossmut_rate);
+	gen_getter_and_setter_by_val(crossover_rate);
+	gen_getter_and_setter_by_val(mutation_rate);
 
-	size_t fitness(const std::string& some_genome) const;
+	size_t fitness(const std::string& geno) const;
 	inline size_t max_fitness() const
 	{
 		return to_find().size();
@@ -40,7 +46,9 @@ private:		// functions
 
 	void crossover(std::string& a, std::string& b);
 	void mutate(std::string& a, std::string& b);
-	void randomize_genome(std::string& a);
+	void randomize_genome(std::string& geno);
+
+	char get_random_printable_char();
 
 	inline auto prng()
 	{
