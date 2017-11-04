@@ -313,7 +313,9 @@ void Ga::__make_selection_vec()
 	{
 		//temp_sel_vec.at(i).resize(fitness(genomes().at(i)));
 		//temp_sel_vec.at(i).resize(fitness(genomes().at(i)) * 2);
-		temp_sel_vec.at(i).resize(fitness(genomes().at(i)) * 3);
+		//temp_sel_vec.at(i).resize(fitness(genomes().at(i)) * 3);
+		//temp_sel_vec.at(i).resize(fitness(genomes().at(i)) * 2);
+		temp_sel_vec.at(i).resize(fitness(genomes().at(i)));
 
 		//// Need to have each thing represented by at least one part of the
 		//// pie.
