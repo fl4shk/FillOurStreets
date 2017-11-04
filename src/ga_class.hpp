@@ -69,9 +69,9 @@ private:		// functions
 	size_t fitness(const std::string& geno) const;
 	inline size_t max_fitness() const
 	{
+		return to_find().size();
 		//return to_find().size() * 2;
 		//return to_find().size() * to_find().size();
-		return to_find().size();
 	}
 	size_t current_best_fitness() const;
 	inline size_t max_past_end_index() const

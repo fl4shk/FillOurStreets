@@ -51,8 +51,10 @@ void Ga::print_genomes() const
 	for (const auto& geno : genomes())
 	{
 		//printout(geno, ":  ", fitness(geno), "\n");
-		printout(geno, //"\t\tfitness:  ", fitness(geno), 
-			"\t\tcurrent_best_fitness():  ", some_best_fitness, "\n");
+		printout(geno, 
+			"\t\tcurrent_best_fitness():  ", some_best_fitness, 
+			"\t\tfitness:  ", fitness(geno), 
+			"\n");
 	}
 }
 const std::string Ga::get_solution() const
@@ -300,7 +302,9 @@ void Ga::__make_selection_vec()
 	//for (const auto& geno : genomes())
 	for (size_t i=0; i<genomes().size(); ++i)
 	{
-		temp_sel_vec.at(i).resize(fitness(genomes().at(i)));
+		//temp_sel_vec.at(i).resize(fitness(genomes().at(i)));
+		//temp_sel_vec.at(i).resize(fitness(genomes().at(i)) * 2);
+		temp_sel_vec.at(i).resize(fitness(genomes().at(i)) * 3);
 
 		//// Need to have each thing represented by at least one part of the
 		//// pie.
