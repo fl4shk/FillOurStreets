@@ -75,7 +75,7 @@ int Ga::operator () ()
 	{
 		iterate();
 		print_genomes();
-		printout("\n");
+		//printout("\n");
 	}
 
 	return 0;
