@@ -34,8 +34,8 @@ private:		// variables
 
 
 public:		// functions
-	Ga(const std::string& s_to_find, size_t s_pop_size=20, 
-		double s_crossover_rate=0.7f, double s_mutation_rate=0.1f);
+	Ga(const std::string& s_to_find, size_t s_pop_size=300, 
+		double s_crossover_rate=0.7f, double s_mutation_rate=0.01f);
 	~Ga();
 
 

@@ -36,7 +36,6 @@ tags
 types_*.taghl
 */tags
 */types_*.taghl
-makefile_temp
 *.txt.ignore
 *.cpp.ignore
 *.hpp.ignore
@@ -44,12 +43,5 @@ makefile_temp
 *.h.ignore
 *.v.ignore
 *.sh.ignore
-*.dot
-*.ps
-*.pdf
-outs/*
-orig/*
-the_cuda_thing
-cuda_test_3
-ga_test_1
-ga_test_1_debug
+FillOurStreets
+FillOurStreets_debug
