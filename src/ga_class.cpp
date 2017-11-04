@@ -16,14 +16,18 @@ Ga::Ga(const std::string& s_to_find, size_t s_pop_size,
 
 	__num_iterations = 0;
 
-	for (auto& geno : genomes())
+	do
 	{
-		geno.resize(max_past_end_index());
-		randomize_genome(geno);
-		//geno.at(4) = ' ';
-		//geno.at(9) = ' ';
-		//geno.at(14) = ' ';
-	}
+		for (auto& geno : genomes())
+		{
+			geno.resize(max_past_end_index());
+			randomize_genome(geno);
+			//geno.at(4) = ' ';
+			//geno.at(9) = ' ';
+			//geno.at(14) = ' ';
+		}
+	} while (current_best_fitness() == 0);
+
 	//printout("\n");
 
 	//print_genomes();
@@ -94,7 +98,9 @@ size_t Ga::fitness(const std::string& geno) const
 		if (geno.at(i) == to_find().at(i))
 		{
 			//++ret;
-			ret += 2;
+			//ret += 2;
+			//ret += to_find().size();
+			++ret;
 		}
 	}
 
@@ -296,14 +302,14 @@ void Ga::__make_selection_vec()
 	{
 		temp_sel_vec.at(i).resize(fitness(genomes().at(i)));
 
-		// Need to have each thing represented by at least one part of the
-		// pie.
-		if (temp_sel_vec.at(i).size() == 0)
-		{
-			temp_sel_vec.at(i).push_back(i);
-		}
+		//// Need to have each thing represented by at least one part of the
+		//// pie.
+		//if (temp_sel_vec.at(i).size() == 0)
+		//{
+		//	temp_sel_vec.at(i).push_back(i);
+		//}
 
-		else
+		//else
 		{
 			for (auto& temp_sel : temp_sel_vec.at(i))
 			{
