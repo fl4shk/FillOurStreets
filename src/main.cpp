@@ -5,16 +5,25 @@ void tester(const double crossover_rate, const double mutation_rate);
 
 int main(int argc, char** argv)
 {
-	if (argc != 4)
+	if ((argc < 4) || (argc > 5))
 	{
-		printerr("Usage:  ", argv[0], " pop_size crossover_rate ",
+		printerr("Usage 0:  ", argv[0], " pop_size crossover_rate ",
 			"mutation_rate\n");
+		printerr("Usage 1:  ", argv[0], " pop_size crossover_rate ",
+			"mutation_rate use_all_printable_chars\n");
 		exit(1);
 	}
 
 	const int pop_size = atoi(argv[1]);
 	const double crossover_rate = atof(argv[2]);
 	const double mutation_rate = atof(argv[3]);
+	bool use_all_printable_chars = false;
+
+	if (argc == 5)
+	{
+		use_all_printable_chars = atoi(argv[4]);
+	}
+
 
 	if (pop_size <= 2)
 	{
@@ -37,7 +46,7 @@ int main(int argc, char** argv)
 	Ga ga("Banks wants to empty the banks, "
 		"fill our streets with banks, "
 		"and run a bank making operation out of his banks.",
-		pop_size, crossover_rate, mutation_rate);
+		pop_size, crossover_rate, mutation_rate, use_all_printable_chars);
 
 	//Ga ga("0ooo oooo aaaa bbbb",
 	//	pop_size, crossover_rate, mutation_rate);
@@ -51,7 +60,8 @@ int main(int argc, char** argv)
 
 	ga.print_genomes();
 
-	printout("\n\nSolution:  \"", ga.get_solution(), "\"\n");
+	printout("\n\nSolution in ", ga.num_iterations(), " iterations:  \"", 
+		ga.get_solution(), "\"\n");
 	return ret;
 }
 

@@ -22,7 +22,6 @@ private:		// variables
 	std::string __to_find;
 	Prng __prng;
 
-
 	size_t __num_iterations = 0;
 
 	std::vector<std::string> __genomes, __next_genomes;
@@ -31,25 +30,30 @@ private:		// variables
 
 	size_t __pop_size; 
 	double __crossover_rate, __mutation_rate;
+	bool __use_all_printable_chars;
+
+
 
 
 public:		// functions
 	Ga(const std::string& s_to_find, size_t s_pop_size=300, 
-		double s_crossover_rate=0.7f, double s_mutation_rate=0.01f);
+		double s_crossover_rate=0.7f, double s_mutation_rate=0.01f,
+		bool s_use_all_printable_chars=false);
 	~Ga();
 
 
-	gen_getter_by_con_ref(to_find);
 	void print_genomes() const;
 
 	const std::string get_solution() const;
 
 	int operator () ();
 
+	gen_getter_by_con_ref(to_find);
 	gen_getter_by_val(num_iterations);
+	gen_getter_by_con_ref(valid_chars_set);
 	gen_getter_by_con_ref(genomes);
 	gen_getter_by_con_ref(next_genomes);
-	gen_getter_by_con_ref(valid_chars_set);
+	gen_getter_by_val(use_all_printable_chars);
 
 
 private:		// functions

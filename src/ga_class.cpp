@@ -1,9 +1,11 @@
 #include "ga_class.hpp"
 
 Ga::Ga(const std::string& s_to_find, size_t s_pop_size, 
-	double s_crossover_rate, double s_mutation_rate)
+	double s_crossover_rate, double s_mutation_rate, 
+	bool s_use_all_printable_chars)
 	: __to_find(s_to_find), __pop_size(s_pop_size),
-	__crossover_rate(s_crossover_rate), __mutation_rate(s_mutation_rate)
+	__crossover_rate(s_crossover_rate), __mutation_rate(s_mutation_rate),
+	__use_all_printable_chars(s_use_all_printable_chars)
 {
 	for (char c : to_find())
 	{
@@ -358,11 +360,23 @@ char Ga::get_random_valid_char()
 {
 	char ret;
 
-	do
+	if (!use_all_printable_chars())
 	{
-		const auto rand_val = prng();
-		ret = static_cast<char>(rand_val % (sizeof(char) << 8));
-	} while (valid_chars_set().count(ret) == 0);
+		do
+		{
+			const auto rand_val = prng();
+			ret = static_cast<char>(rand_val % (sizeof(char) << 8));
+		} while (valid_chars_set().count(ret) == 0);
+	}
+	else
+	{
+		do
+		{
+			const auto rand_val = prng();
+			ret = static_cast<char>(rand_val % (sizeof(char) << 8));
+		} while (!isprint(ret));
+	}
+
 	//while (!isprint(ret));
 	//while (!(ret >= 'a' && ret <= 'z'));
 	//while (!isalpha(ret));
