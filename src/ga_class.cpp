@@ -214,8 +214,10 @@ void Ga::crossover_or_copy()
 		//	(prng() % genomes().front().size()), genomes().front().size());
 
 		{
+			//const auto val_0 = (prng() % genomes().front().size()),
+			//	val_1 = (prng() % genomes().front().size());
 			const auto val_0 = (prng() % genomes().front().size()),
-				val_1 = (prng() % genomes().front().size());
+				val_1 = genomes().front().size() - 1;
 
 			if (val_0 < val_1)
 			{
@@ -281,8 +283,10 @@ void Ga::mutate_maybe(size_t index)
 	//__raw_mutate(old_next_genome, next_genomes().at(index),
 	//	(prng() % old_next_genome.size()), old_next_genome.size());
 
-	const auto val_0 = (prng() % old_next_genome.size()),
-		val_1 = (prng() % old_next_genome.size());
+	//const auto val_0 = (prng() % old_next_genome.size()),
+	//	val_1 = (prng() % old_next_genome.size());
+	const int val_0 = 0,
+		val_1 = old_next_genome.size() - 1;
 
 	if (val_0 < val_1)
 	{
