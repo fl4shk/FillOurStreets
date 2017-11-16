@@ -388,20 +388,20 @@ void Ga::iterate()
 	{
 	const auto best_fitness = current_best_fitness();
 
-	bool cant_prevent_mutate = true;
+	bool found_non_best = false;
 
-	for (size_t i=0; i<genomes().size(); ++i)
+	for (const auto& geno : genomes())
 	{
-		if (fitness(genomes().at(i)) != best_fitness)
+		if (fitness(geno) != best_fitness)
 		{
-			cant_prevent_mutate = false;
+			found_non_best = true;
 			break;
 		}
 	}
 
 	for (size_t i=0; i<next_genomes().size(); ++i)
 	{
-		if (cant_prevent_mutate) 
+		if (found_non_best) 
 		{
 			mutate_maybe(i);
 		}
