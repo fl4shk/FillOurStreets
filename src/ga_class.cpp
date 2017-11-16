@@ -401,9 +401,16 @@ void Ga::iterate()
 
 	for (size_t i=0; i<next_genomes().size(); ++i)
 	{
-		if (cant_prevent_mutate || fitness(genomes().at(i)) != best_fitness)
+		if (cant_prevent_mutate) 
 		{
 			mutate_maybe(i);
+		}
+		else if (fitness(genomes().at(i)) != best_fitness)
+		{
+			if (can_mutate())
+			{
+				mutate_maybe(i);
+			}
 		}
 	}
 	}
