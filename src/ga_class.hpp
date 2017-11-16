@@ -94,6 +94,7 @@ private:		// functions
 		size_t start_index, size_t past_end_index);
 	void mutate_maybe(size_t index);
 	void select_two(size_t& out_index_a, size_t& out_index_b);
+	size_t get_worst_fitness() const;
 	void __make_selection_vec();
 
 	void iterate();

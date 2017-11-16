@@ -307,6 +307,23 @@ void Ga::select_two(size_t& out_index_a, size_t& out_index_b)
 	out_index_b = selection_vec().at(prng() % selection_vec().size());
 }
 
+size_t Ga::get_worst_fitness() const
+{
+	size_t ret = current_best_fitness();
+
+	for (const auto& iter : genomes())
+	{
+		const auto temp = fitness(iter);
+
+		if (temp < ret)
+		{
+			ret = temp;
+		}
+	}
+
+	return ret;
+}
+
 void Ga::__make_selection_vec()
 {
 	std::vector<std::vector<size_t>> temp_sel_vec;
@@ -368,9 +385,15 @@ void Ga::iterate()
 		crossover_or_copy();
 	}
 
+	{
+	const auto worst_fitness = get_worst_fitness();
 	for (size_t i=0; i<next_genomes().size(); ++i)
 	{
-		mutate_maybe(i);
+		if (fitness(genomes().at(i)) == worst_fitness)
+		{
+			mutate_maybe(i);
+		}
+	}
 	}
 
 	genomes() = std::move(next_genomes());
