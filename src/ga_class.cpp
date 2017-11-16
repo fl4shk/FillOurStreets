@@ -386,10 +386,10 @@ void Ga::iterate()
 	}
 
 	{
-	const auto worst_fitness = get_worst_fitness();
+	const auto best_fitness = current_best_fitness();
 	for (size_t i=0; i<next_genomes().size(); ++i)
 	{
-		if (fitness(genomes().at(i)) == worst_fitness)
+		if (fitness(genomes().at(i)) != best_fitness)
 		{
 			mutate_maybe(i);
 		}
