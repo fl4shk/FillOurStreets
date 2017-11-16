@@ -287,19 +287,23 @@ void Ga::mutate_maybe(size_t index)
 	//	val_1 = (prng() % old_next_genome.size());
 	//const int val_0 = 0,
 	//	val_1 = old_next_genome.size() - 1;
+
+	//if (val_0 < val_1)
+	//{
+	//	__raw_mutate(old_next_genome, next_genomes().at(index),
+	//		val_0, val_1 + 1);
+	//}
+	//else
+	//{
+	//	__raw_mutate(old_next_genome, next_genomes().at(index),
+	//		val_1, val_0 + 1);
+	//}
+
 	const auto val_0 = (prng() % old_next_genome.size());
 	const auto val_1 = val_0 + 1;
 
-	if (val_0 < val_1)
-	{
-		__raw_mutate(old_next_genome, next_genomes().at(index),
-			val_0, val_1 + 1);
-	}
-	else
-	{
-		__raw_mutate(old_next_genome, next_genomes().at(index),
-			val_1, val_0 + 1);
-	}
+	__raw_mutate(old_next_genome, next_genomes().at(index),
+		val_0, val_1);
 }
 
 
