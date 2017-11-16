@@ -401,7 +401,7 @@ void Ga::iterate()
 
 	for (size_t i=0; i<next_genomes().size(); ++i)
 	{
-		if (found_non_best) 
+		if (!found_non_best) 
 		{
 			mutate_maybe(i);
 		}
