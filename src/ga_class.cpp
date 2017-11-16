@@ -407,7 +407,8 @@ void Ga::iterate()
 		}
 		else if (fitness(genomes().at(i)) != best_fitness)
 		{
-			if (can_mutate())
+			//if (can_mutate())
+			if (prng() % 2)
 			{
 				mutate_maybe(i);
 			}
